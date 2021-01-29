@@ -3,3 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+UENUM()
+enum AbilityTypes
+{
+	None,
+	Jump,
+	Dash,
+	Culetazo
+};
