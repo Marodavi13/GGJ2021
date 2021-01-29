@@ -6,5 +6,5 @@
 ALFGameMode::ALFGameMode()
 {
 	// Set default pawn class to our character
-	DefaultPawnClass = ALFCharacter::StaticClass();	
+	DefaultPawnClass = ALFCharacter::StaticClass();
 }
