@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LFGameMode.h"
-#include "LFCharacter.h"
+#include "../Actors/Character/LFCharacter.h"
 
 ALFGameMode::ALFGameMode()
 {
