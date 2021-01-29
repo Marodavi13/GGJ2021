@@ -4,12 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "AbilitySystemComponent.generated.h"
-
+#include "LFAbilityComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class LF_API UAbilitySystemComponent : public UActorComponent
+class LF_API ULFAbilityComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -25,6 +24,5 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-
-
+		
 };
