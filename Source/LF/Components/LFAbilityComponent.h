@@ -7,6 +7,8 @@
 #include "LF/LF.h"
 #include "LFAbilityComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityEnabled, ELFAbilityType, Ability, bool, bHasBeenEnabled);
+
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LF_API ULFAbilityComponent : public UActorComponent
 {
@@ -29,6 +31,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsAbilityAllowed(ELFAbilityType Type);
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilityEnabled OnAbilityEnabled;
+protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<ELFAbilityType, bool> AllowedAbilitiesMap;

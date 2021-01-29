@@ -35,6 +35,8 @@ void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
 	if (AllowedAbilitiesMap.Contains(Type))
 	{
 		AllowedAbilitiesMap[Type] = bAllow;
+
+		OnAbilityEnabled.Broadcast(Type, bAllow);
 	}
 }
 
