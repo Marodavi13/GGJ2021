@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 
-UENUM()
-enum AbilityTypes
+UENUM(BlueprintType)
+enum class ELFAbilityType: uint8
 {
 	None,
 	Jump,
 	Dash,
-	Culetazo
+	Stomp
 };
