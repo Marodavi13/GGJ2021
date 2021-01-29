@@ -73,8 +73,6 @@ ALFCharacter::ALFCharacter()
 void ALFCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	
-	UpdateCharacter();	
 }
 
 
@@ -93,9 +91,4 @@ void ALFCharacter::MoveRight(float Value)
 {
 	// Apply the input to the character motion
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
-}
-
-void ALFCharacter::UpdateCharacter()
-{
-
 }
