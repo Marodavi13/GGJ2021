@@ -40,3 +40,12 @@ void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
 	}
 }
 
+bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
+{
+	if (AllowedAbilities.Contains(Type))
+	{
+		return AllowedAbilities[Type];
+	}
+
+	return false;
+}

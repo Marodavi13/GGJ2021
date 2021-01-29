@@ -26,7 +26,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AllowAbility(ELFAbilityType Type, bool bAllow);
-	
+
+	UFUNCTION(BlueprintCallable)
+	bool IsAbilityAllowed(ELFAbilityType Type);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<ELFAbilityType, bool> AllowedAbilities;
 };
