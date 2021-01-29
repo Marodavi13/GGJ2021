@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "LF/LF.h"
 #include "LFAbilityComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LF_API ULFAbilityComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -24,5 +24,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	UFUNCTION(BlueprintCallable)
+	void AllowAbility(ELFAbilityType Type, bool bAllow);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<ELFAbilityType, bool> AllowedAbilities;
 };

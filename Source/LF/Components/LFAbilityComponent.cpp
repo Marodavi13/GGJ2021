@@ -32,3 +32,11 @@ void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
+void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
+{
+	if (AllowedAbilities.Contains(Type))
+	{
+		AllowedAbilities[Type] = bAllow;
+	}
+}
+
