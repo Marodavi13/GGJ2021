@@ -21,28 +21,16 @@ class ALFCharacter : public APaperCharacter
 {
 	GENERATED_BODY()
 
-	/** Side view camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess="true"))
-	class UCameraComponent* SideViewCameraComponent;
+public:
+	ALFCharacter();
 
-	/** Camera boom positioning the camera beside the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+	/** Returns SideViewCameraComponent subobject **/
+	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	UTextRenderComponent* TextComponent;
 	virtual void Tick(float DeltaSeconds) override;
 protected:
-	// The animation to play while running around
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
-	class UPaperFlipbook* RunningAnimation;
-
-	// The animation to play while idle (standing still)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* IdleAnimation;
-
-	/** Called to choose the correct animation to play based on the character's movement state */
-	void UpdateAnimation();
-
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
@@ -51,12 +39,16 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+protected:
 
-public:
-	ALFCharacter();
+	/** Side view camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCameraComponent* SideViewCameraComponent;
 
-	/** Returns SideViewCameraComponent subobject **/
-	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Camera boom positioning the camera beside the character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class USpringArmComponent* CameraBoom;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class ULFAnimationComponent* AnimationComponent;
 };
