@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Components/LFAbilityComponent.h"
+#include "LF/Components/LFAbilityComponent.h"
 
 // Sets default values for this component's properties
 ULFAbilityComponent::ULFAbilityComponent()

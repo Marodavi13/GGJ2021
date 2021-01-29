@@ -14,7 +14,7 @@ class LF_API ULFAbilityComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UAbilitySystemComponent();
+	ULFAbilityComponent();
 
 protected:
 	// Called when the game starts
