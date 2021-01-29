@@ -16,6 +16,7 @@ class LF_API ULFDefaultContent : public UObject
 	GENERATED_BODY()
 	
 public:
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	static ULFDefaultContent* Get();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
