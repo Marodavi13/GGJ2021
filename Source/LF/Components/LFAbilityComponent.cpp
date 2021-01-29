@@ -10,7 +10,10 @@ ULFAbilityComponent::ULFAbilityComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	for (int32 i = 1; i < (int32)ELFAbilityType::Count; ++i)
+	{
+		AllowedAbilitiesMap.Add((ELFAbilityType)i, false);
+	}
 }
 
 
@@ -18,9 +21,6 @@ ULFAbilityComponent::ULFAbilityComponent()
 void ULFAbilityComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -28,24 +28,24 @@ void ULFAbilityComponent::BeginPlay()
 void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
 {
-	if (AllowedAbilities.Contains(Type))
+	if (AllowedAbilitiesMap.Contains(Type))
 	{
-		AllowedAbilities[Type] = bAllow;
+		AllowedAbilitiesMap[Type] = bAllow;
 	}
 }
 
 bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 {
-	if (AllowedAbilities.Contains(Type))
+	if (AllowedAbilitiesMap.Contains(Type))
 	{
-		return AllowedAbilities[Type];
+		return AllowedAbilitiesMap[Type];
 	}
 
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("CUIDADO, EL AllowedAbilitiesMap NO TIENE ESTA HABILIDAD!"));
 	return false;
 }

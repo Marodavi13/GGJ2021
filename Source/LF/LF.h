@@ -9,6 +9,8 @@ enum class ELFAbilityType: uint8
 {
 	None,
 	Jump,
+	Jetpack,
 	Dash,
-	Stomp
+	Stomp,
+	Count
 };

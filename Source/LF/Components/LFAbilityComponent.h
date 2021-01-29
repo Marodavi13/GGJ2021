@@ -31,5 +31,5 @@ public:
 	bool IsAbilityAllowed(ELFAbilityType Type);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<ELFAbilityType, bool> AllowedAbilities;
+	TMap<ELFAbilityType, bool> AllowedAbilitiesMap;
 };
