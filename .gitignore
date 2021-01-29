@@ -72,7 +72,10 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+LF.uproject
+
 
 # Rider files
 .idea/*
 LF/.idea/*
+
