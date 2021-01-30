@@ -78,7 +78,7 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	if (AllowedAbilitiesMap.Contains(Type) && AbilityMap.Contains(Type) && AllowedAbilitiesMap[Type])
+	if (AllowedAbilitiesMap.Contains(Type) && AbilityMap.Contains(Type) && AllowedAbilitiesMap[Type] && AbilityMap[Type]->CanUseAbility())
 	{
 		AbilityMap[Type]->ActivateAbility();
 		OnAbilityStarted.Broadcast(Type);
