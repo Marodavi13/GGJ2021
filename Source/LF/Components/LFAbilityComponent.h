@@ -8,6 +8,8 @@
 #include "LFAbilityComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityEnabled, ELFAbilityType, Ability, bool, bHasBeenEnabled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityStarted, ELFAbilityType, Ability);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityEnded, ELFAbilityType, Ability);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LF_API ULFAbilityComponent : public UActorComponent
@@ -32,9 +34,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAbilityAllowed(ELFAbilityType Type);
 
+
+	UFUNCTION(BlueprintCallable)
+	void ActivateAbilityByType(ELFAbilityType Type);
+
+
 public:
+
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilityEnabled OnAbilityEnabled;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilityStarted OnAbilityStarted;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilityEnded OnAbilityEnded;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

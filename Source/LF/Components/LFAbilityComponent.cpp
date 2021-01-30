@@ -51,3 +51,8 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("CUIDADO, EL AllowedAbilitiesMap NO TIENE ESTA HABILIDAD!"));
 	return false;
 }
+
+void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
+{
+	OnAbilityStarted.Broadcast(Type);
+}
