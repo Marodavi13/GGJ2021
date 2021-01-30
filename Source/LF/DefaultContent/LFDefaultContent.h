@@ -7,9 +7,18 @@
 #include "LF/LF.h"
 #include "LFDefaultContent.generated.h"
 
-/**
- * 
- */
+USTRUCT(BlueprintType)
+struct FLFAbilityImages
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UTexture2D* EnabledTexture;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UTexture2D* DisabledTexture;
+};
+
 UCLASS(Blueprintable)
 class LF_API ULFDefaultContent : public UObject
 {
@@ -22,7 +31,13 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FLinearColor GetAbilityColor(ELFAbilityType Ability) const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	class UTexture2D* GetAbilityImage(ELFAbilityType Ability, bool bIsEnabled)const;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ELFAbilityType, FLinearColor> AbilityColors;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<ELFAbilityType, FLFAbilityImages> AbilityImages;
+
 };

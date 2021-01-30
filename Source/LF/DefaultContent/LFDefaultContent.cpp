@@ -27,3 +27,15 @@ FLinearColor ULFDefaultContent::GetAbilityColor(ELFAbilityType Ability) const
 
 	return ReturnedColor;
 }
+
+UTexture2D* ULFDefaultContent::GetAbilityImage(ELFAbilityType Ability, bool bIsEnabled) const
+{
+	UTexture2D* ReturnedTexture = nullptr;
+	const FLFAbilityImages* Images = AbilityImages.Find(Ability);
+	if (Images)
+	{
+		ReturnedTexture = bIsEnabled ? Images->EnabledTexture : Images->DisabledTexture;
+	}
+
+	return ReturnedTexture;
+}

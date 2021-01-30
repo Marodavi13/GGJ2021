@@ -14,3 +14,4 @@ enum class ELFAbilityType: uint8
 	Stomp,
 	Count
 };
+
