@@ -97,7 +97,6 @@ void ULFAbilityComponent::DeactivateAbilityByType(ELFAbilityType Type)
 {
 	if (CurrentAbility == Type && AbilityMap.Contains(Type))
 	{
-		CurrentAbility = ELFAbilityType::None;
 		AbilityMap[Type]->DeactivateAbility();
 	}
 }
@@ -108,6 +107,7 @@ void ULFAbilityComponent::BroadcastAbilityDeactivated(TSubclassOf<ULFAbility> Ab
 	{
 		if (Ability.Value == AbilityClass)
 		{
+			CurrentAbility = ELFAbilityType::None;
 			OnAbilityEnded.Broadcast(Ability.Key);
 			break;
 		}
