@@ -54,4 +54,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<ELFAbilityType, bool> AllowedAbilitiesMap;
+
+	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
+	ELFAbilityType CurrentAbility;
+
 };

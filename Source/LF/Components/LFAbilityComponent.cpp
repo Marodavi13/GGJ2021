@@ -54,5 +54,10 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	OnAbilityStarted.Broadcast(Type);
+	if (CurrentAbility == ELFAbilityType::None)
+	{
+		CurrentAbility = Type;
+		OnAbilityStarted.Broadcast(Type);
+	}
+
 }
