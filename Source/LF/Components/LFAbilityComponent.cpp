@@ -27,15 +27,10 @@ void ULFAbilityComponent::BeginPlay()
 
 	for (const TPair<ELFAbilityType, TSubclassOf<ULFAbility>>& pair : AbilityMapSubClasses)
 	{
-		UClass* MyClass = pair.Value.Get();
 		ULFAbility* InstanciatedAbility = NewObject<ULFAbility>(this, pair.Value);
-
 		AbilityMap.Add(pair.Key, InstanciatedAbility);
 
-		AActor* actor = GetOwner();
-		ALFCharacter* character = Cast<ALFCharacter>(GetOwner());
-
-		InstanciatedAbility->BeginAbility(character, this);
+		InstanciatedAbility->BeginAbility(Cast<ALFCharacter>(GetOwner()));
 	}
 }
 
@@ -45,12 +40,9 @@ void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	for (const TPair<ELFAbilityType, ULFAbility*>& pair : AbilityMap)
+	if (CurrentAbility != ELFAbilityType::None)
 	{
-		if (AllowedAbilitiesMap.Contains(pair.Key) && AllowedAbilitiesMap[pair.Key])
-		{
-			pair.Value->UpdateAbility(DeltaTime);
-		}
+		AbilityMap[CurrentAbility]->UpdateAbility(DeltaTime);
 	}
 }
 
@@ -64,7 +56,7 @@ void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
 	}
 }
 
-bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
+bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type) const
 {
 	if (AllowedAbilitiesMap.Contains(Type))
 	{
@@ -75,14 +67,14 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("CUIDADO, EL AllowedAbilitiesMap NO TIENE ESTA HABILIDAD!"));
 	}
-
 	return false;
 }
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	if (AllowedAbilitiesMap.Contains(Type) && AbilityMap.Contains(Type) && AllowedAbilitiesMap[Type] && AbilityMap[Type]->CanUseAbility())
+	if (CurrentAbility == ELFAbilityType::None && IsAbilityAllowed(Type) && AbilityMap.Contains(Type) && AbilityMap[Type]->CanUseAbility())
 	{
+		CurrentAbility = Type;
 		AbilityMap[Type]->ActivateAbility();
 		OnAbilityStarted.Broadcast(Type);
 	}
@@ -90,9 +82,20 @@ void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 
 void ULFAbilityComponent::DeactivateAbilityByType(ELFAbilityType Type)
 {
-	if (AbilityMap.Contains(Type))
+	if (CurrentAbility == Type && AbilityMap.Contains(Type))
 	{
+		CurrentAbility = ELFAbilityType::None;
 		AbilityMap[Type]->DeactivateAbility();
 		OnAbilityEnded.Broadcast(Type);
 	}
+}
+
+ULFAbility* ULFAbilityComponent::GetCurrentAbility() const
+{
+	ULFAbility* ReturnedAbility = nullptr;
+	if(AbilityMap.Contains(CurrentAbility))
+	{
+		ReturnedAbility = AbilityMap[CurrentAbility];
+	}
+	return ReturnedAbility;
 }

@@ -32,8 +32,7 @@ public:
 	void AllowAbility(ELFAbilityType Type, bool bAllow);
 
 	UFUNCTION(BlueprintCallable)
-	bool IsAbilityAllowed(ELFAbilityType Type);
-
+	bool IsAbilityAllowed(ELFAbilityType Type) const;
 
 	UFUNCTION(BlueprintCallable)
 	void ActivateAbilityByType(ELFAbilityType Type);
@@ -41,9 +40,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DeactivateAbilityByType(ELFAbilityType Type);
 
+	UFUNCTION(BlueprintPure)
+	ELFAbilityType GetCurrentAbilityType() const { return CurrentAbility; }
+
+	UFUNCTION(BlueprintPure)
+	ULFAbility* GetCurrentAbility() const;
 
 public:
-
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilityEnabled OnAbilityEnabled;
 
