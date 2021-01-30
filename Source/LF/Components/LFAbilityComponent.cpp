@@ -2,6 +2,9 @@
 
 
 #include "LF/Components/LFAbilityComponent.h"
+#include "LF/Abilities/LFAbility.h"
+#include "LF/Actors/Character/LFCharacter.h"
+
 
 // Sets default values for this component's properties
 ULFAbilityComponent::ULFAbilityComponent()
@@ -21,6 +24,19 @@ ULFAbilityComponent::ULFAbilityComponent()
 void ULFAbilityComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	for (const TPair<ELFAbilityType, TSubclassOf<ULFAbility>>& pair : AbilityMapSubClasses)
+	{
+		UClass* MyClass = pair.Value.Get();
+		ULFAbility* InstanciatedAbility = NewObject<ULFAbility>(this, pair.Value);
+
+		AbilityMap.Add(pair.Key, InstanciatedAbility);
+
+		AActor* actor = GetOwner();
+		ALFCharacter* character = Cast<ALFCharacter>(GetOwner());
+
+		InstanciatedAbility->BeginAbility(character);
+	}
 }
 
 
@@ -28,6 +44,14 @@ void ULFAbilityComponent::BeginPlay()
 void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	for (const TPair<ELFAbilityType, ULFAbility*>& pair : AbilityMap)
+	{
+		if (AllowedAbilitiesMap.Contains(pair.Key) && AllowedAbilitiesMap[pair.Key])
+		{
+			pair.Value->UpdateAbility(DeltaTime);
+		}
+	}
 }
 
 void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
@@ -54,5 +78,18 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	OnAbilityStarted.Broadcast(Type);
+	if (AllowedAbilitiesMap.Contains(Type) && AbilityMap.Contains(Type) && AllowedAbilitiesMap[Type])
+	{
+		AbilityMap[Type]->ActivateAbility();
+		OnAbilityStarted.Broadcast(Type);
+	}
+}
+
+void ULFAbilityComponent::DeactivateAbilityByType(ELFAbilityType Type)
+{
+	if (AbilityMap.Contains(Type))
+	{
+		AbilityMap[Type]->DeactivateAbility();
+		OnAbilityEnded.Broadcast(Type);
+	}
 }

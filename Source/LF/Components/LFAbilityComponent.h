@@ -38,6 +38,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ActivateAbilityByType(ELFAbilityType Type);
 
+	UFUNCTION(BlueprintCallable)
+	void DeactivateAbilityByType(ELFAbilityType Type);
+
 
 public:
 
@@ -50,8 +53,15 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilityEnded OnAbilityEnded;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<ELFAbilityType, TSubclassOf<class ULFAbility>> AbilityMapSubClasses;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<ELFAbilityType, bool> AllowedAbilitiesMap;
+
+	UPROPERTY(Transient, SkipSerialization)
+	TMap<ELFAbilityType, class ULFAbility*> AbilityMap;
+
 };
