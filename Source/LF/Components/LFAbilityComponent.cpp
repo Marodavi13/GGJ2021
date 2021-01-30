@@ -17,6 +17,9 @@ ULFAbilityComponent::ULFAbilityComponent()
 	{
 		AllowedAbilitiesMap.Add((ELFAbilityType)i, false);
 	}
+
+	CurrentAbility = ELFAbilityType::None;
+
 }
 
 
@@ -24,12 +27,10 @@ ULFAbilityComponent::ULFAbilityComponent()
 void ULFAbilityComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	for (const TPair<ELFAbilityType, TSubclassOf<ULFAbility>>& pair : AbilityMapSubClasses)
 	{
 		ULFAbility* InstanciatedAbility = NewObject<ULFAbility>(this, pair.Value);
 		AbilityMap.Add(pair.Key, InstanciatedAbility);
-
 		InstanciatedAbility->BeginAbility(Cast<ALFCharacter>(GetOwner()));
 	}
 }
@@ -39,10 +40,14 @@ void ULFAbilityComponent::BeginPlay()
 void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ELFAbilityType"), true);
+	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, FString::Printf(TEXT("Current ability: %s"), *EnumPtr->GetNameStringByIndex((int32)(CurrentAbility))));
+	
 	if (CurrentAbility != ELFAbilityType::None)
 	{
 		AbilityMap[CurrentAbility]->UpdateAbility(DeltaTime);
+
+	
 	}
 }
 
@@ -72,8 +77,13 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type) const
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	if (CurrentAbility == ELFAbilityType::None && IsAbilityAllowed(Type) && AbilityMap.Contains(Type) && AbilityMap[Type]->CanUseAbility())
+	if (IsAbilityAllowed(Type) && AbilityMap.Contains(Type) && AbilityMap[Type]->CanUseAbility())
 	{
+		if (CurrentAbility != ELFAbilityType::None)
+		{
+			DeactivateAbilityByType(CurrentAbility);
+		}
+
 		CurrentAbility = Type;
 		AbilityMap[Type]->ActivateAbility();
 		OnAbilityStarted.Broadcast(Type);
