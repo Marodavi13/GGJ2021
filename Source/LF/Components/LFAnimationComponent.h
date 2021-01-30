@@ -25,6 +25,9 @@ protected:
 
 	void SetCurrentAnimation(ELFAbilityType AbilityType);
 
+	UFUNCTION()
+	void ClearCurrentAnimation();
+
 	void UpdateAnimationBySpeed();
 	void UpdateDirection(const FVector& PlayerVelocity);
 	void UpdateFlipbook();
@@ -48,6 +51,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	TMap<ELFAbilityType, UPaperFlipbook*> AbilitiesAnimations;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	TMap<ELFAbilityType, UPaperFlipbook*> AbilitiesFinishingAnimations;
 
 	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
 	class UPaperFlipbook* CurrentAnimation;

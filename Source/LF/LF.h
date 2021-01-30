@@ -12,6 +12,7 @@ enum class ELFAbilityType: uint8
 	Jetpack,
 	Dash,
 	Stomp,
+	Climb,
 	Count
 };
 

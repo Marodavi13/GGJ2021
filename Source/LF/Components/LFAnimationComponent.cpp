@@ -44,9 +44,16 @@ void ULFAnimationComponent::SetCurrentAnimation(ELFAbilityType AbilityType)
 	{
 		UpdateAnimationBySpeed();
 	}
+	
+	OwnerCharacter->GetSprite()->OnFinishedPlaying.Clear();
+	OwnerCharacter->GetSprite()->SetLooping(true);
 
 	UpdateFlipbook();
+}
 
+void ULFAnimationComponent::ClearCurrentAnimation()
+{
+	SetCurrentAnimation(ELFAbilityType::None);
 }
 
 void ULFAnimationComponent::UpdateAnimationBySpeed()
@@ -66,6 +73,14 @@ void ULFAnimationComponent::OnAbilityEnded(ELFAbilityType AbilityType)
 {
 	CurrentAbility = ELFAbilityType::None;
 	SetCurrentAnimation(CurrentAbility);
+
+	if (AbilitiesFinishingAnimations.Contains(AbilityType))
+	{
+		CurrentAnimation = AbilitiesFinishingAnimations[AbilityType];
+		OwnerCharacter->GetSprite()->OnFinishedPlaying.AddDynamic(this, &ThisClass::ClearCurrentAnimation);
+		OwnerCharacter->GetSprite()->SetLooping(false);
+		UpdateFlipbook();
+	}
 }
 
 // Called every frame
@@ -79,8 +94,11 @@ void ULFAnimationComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 		
 		if (CurrentAbility == ELFAbilityType::None)
 		{
-			UpdateAnimationBySpeed();
-			UpdateFlipbook();
+			if(!OwnerCharacter->GetSprite()->OnFinishedPlaying.IsBound())
+			{
+				UpdateAnimationBySpeed();
+				UpdateFlipbook();
+			}
 		}
 	}
 }
@@ -90,6 +108,7 @@ void ULFAnimationComponent::UpdateFlipbook()
 	if (OwnerCharacter->GetSprite()->GetFlipbook() != CurrentAnimation)
 	{
 		OwnerCharacter->GetSprite()->SetFlipbook(CurrentAnimation);
+		OwnerCharacter->GetSprite()->Play();
 	}
 }
 
