@@ -17,15 +17,4 @@ class LF_API ULFAbilityDash : public ULFAbility
 public:
 
 	ULFAbilityDash();
-
-	virtual void BeginAbility_Implementation(class ALFCharacter* Character) override;
-
-	virtual bool CanUseAbility_Implementation() override;
-
-	virtual void ActivateAbility_Implementation() override;
-
-	virtual void UpdateAbility_Implementation(float DeltaTime) override;
-
-	virtual void DeactivateAbility_Implementation() override;
-
 };

@@ -6,6 +6,9 @@
 #include "UObject/NoExportTypes.h"
 #include "LFAbility.generated.h"
 
+class ALFCharacter;
+class ULFAbilityComponent;
+
 /**
  * 
  */
@@ -19,9 +22,9 @@ public:
 	ULFAbility();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void BeginAbility(class ALFCharacter* Character);
+	void BeginAbility(ALFCharacter* Character, ULFAbilityComponent* AbilityComponent = nullptr);
 
-	virtual void BeginAbility_Implementation(class ALFCharacter* Character);
+	virtual void BeginAbility_Implementation(ALFCharacter* Character, ULFAbilityComponent* AbilityComponent = nullptr);
 
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
@@ -47,6 +50,9 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class ALFCharacter* OwnerCharacter;
+	ALFCharacter* OwnerCharacter;
+
+	UPROPERTY(BlueprintReadOnly)
+	ULFAbilityComponent* OwnerAbilityComponent;
 
 };

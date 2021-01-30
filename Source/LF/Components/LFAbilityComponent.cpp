@@ -35,7 +35,7 @@ void ULFAbilityComponent::BeginPlay()
 		AActor* actor = GetOwner();
 		ALFCharacter* character = Cast<ALFCharacter>(GetOwner());
 
-		InstanciatedAbility->BeginAbility(character);
+		InstanciatedAbility->BeginAbility(character, this);
 	}
 }
 
@@ -72,7 +72,10 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type)
 	}
 
 	if (GEngine)
+	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("CUIDADO, EL AllowedAbilitiesMap NO TIENE ESTA HABILIDAD!"));
+	}
+
 	return false;
 }
 
