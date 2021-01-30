@@ -30,7 +30,7 @@ void ULFAbilityComponent::BeginPlay()
 		ULFAbility* InstanciatedAbility = NewObject<ULFAbility>(this, pair.Value);
 		AbilityMap.Add(pair.Key, InstanciatedAbility);
 
-		InstanciatedAbility->BeginAbility(Cast<ALFCharacter>(GetOwner()));
+		InstanciatedAbility->BeginAbility(Cast<ALFCharacter>(GetOwner()), this);
 	}
 }
 
