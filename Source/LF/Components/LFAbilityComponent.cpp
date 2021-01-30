@@ -87,8 +87,8 @@ void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 	if (IsAbilityAllowed(Type) && AbilityMap.Contains(Type) && AbilityMap[Type]->CanUseAbility())
 	{
 		// HACK HACK HACK HACK 
-		if (CurrentAbility == ELFAbilityType::Jetpack && Type == ELFAbilityType::Dash)
-			return;
+// 		if (CurrentAbility == ELFAbilityType::Jetpack && Type == ELFAbilityType::Dash)
+// 			return;
 
 		if (CurrentAbility != ELFAbilityType::None)
 		{
