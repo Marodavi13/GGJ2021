@@ -62,8 +62,9 @@ public:
 	TArray<UPaperSprite*> GetOffAltarSprites(ELFAbilityType Ability);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateNextLevel(AActor* ThisWorld);
-		
+	TSoftObjectPtr<UWorld> GetNextLevel(AActor* ThisWorld);
+	UFUNCTION(BlueprintCallable)
+	TSoftObjectPtr<UWorld> GetCurrentLevel(AActor* ThisWorld);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ELFAbilityType, FLinearColor> AbilityColors;

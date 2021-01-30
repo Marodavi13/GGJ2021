@@ -69,15 +69,17 @@ TArray<UPaperSprite*> ULFDefaultContent::GetOffAltarSprites(ELFAbilityType Abili
 	return SpritesArray;
 }
 
-void ULFDefaultContent::UpdateNextLevel(AActor* ThisWorld)
+TSoftObjectPtr<UWorld> ULFDefaultContent::GetNextLevel(AActor* ThisWorld)
 {
+	TSoftObjectPtr<UWorld> ReturnedWorld = nullptr;
+
 	if (ThisWorld->GetWorld() == MainLevel.Get())
 	{
-		NextLevel = Levels[0];
+		ReturnedWorld = Levels[0];
 	}
 	else if (ThisWorld->GetWorld() == Levels[Levels.Num() - 1].Get())
 	{
-		NextLevel = EndLevel;
+		ReturnedWorld = EndLevel;
 	}
 	else
 	{
@@ -86,10 +88,38 @@ void ULFDefaultContent::UpdateNextLevel(AActor* ThisWorld)
 			if (ThisWorld->GetWorld() == Levels[i].Get())
 			{
 
-				NextLevel = Levels[i + 1];
+				ReturnedWorld = Levels[i + 1];
 				break;
 			}
 		}
 	}
+	return ReturnedWorld;
+}
+
+TSoftObjectPtr<UWorld> ULFDefaultContent::GetCurrentLevel(AActor* ThisWorld)
+{
+	TSoftObjectPtr<UWorld> ReturnedWorld = nullptr;
+
+	if (ThisWorld->GetWorld() == MainLevel.Get())
+	{
+		ReturnedWorld = MainLevel;
+	}
+	else if (ThisWorld->GetWorld() == EndLevel.Get())
+	{
+		ReturnedWorld = EndLevel;
+	}
+	else
+	{
+		for (int32 i = 0; i < Levels.Num(); ++i)
+		{
+			if (ThisWorld->GetWorld() == Levels[i].Get())
+			{
+
+				ReturnedWorld = Levels[i];
+				break;
+			}
+		}
+	}
+	return ReturnedWorld;
 }
 
