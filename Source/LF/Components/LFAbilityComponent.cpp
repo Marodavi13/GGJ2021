@@ -72,7 +72,7 @@ bool ULFAbilityComponent::IsAbilityAllowed(ELFAbilityType Type) const
 
 void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 {
-	if (CurrentAbility == ELFAbilityType::None && IsAbilityAllowed(Type) && AbilityMap.Contains(Type))
+	if (CurrentAbility == ELFAbilityType::None && IsAbilityAllowed(Type) && AbilityMap.Contains(Type) && AbilityMap[Type]->CanUseAbility())
 	{
 		CurrentAbility = Type;
 		AbilityMap[Type]->ActivateAbility();
