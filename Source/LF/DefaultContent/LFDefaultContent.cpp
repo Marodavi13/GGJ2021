@@ -86,7 +86,7 @@ void ULFDefaultContent::UpdateNextLevel(AActor* ThisWorld)
 			if (ThisWorld->GetWorld() == Levels[i].Get())
 			{
 
-				NextLevel = Levels[i + 1].Get();
+				NextLevel = Levels[i + 1];
 				break;
 			}
 		}
