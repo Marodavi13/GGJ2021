@@ -2,6 +2,7 @@
 
 
 #include "./LFDefaultContent.h"
+#include "PaperSprite.h"
 
 ULFDefaultContent* ULFDefaultContent::Get()
 {
@@ -38,4 +39,31 @@ UTexture2D* ULFDefaultContent::GetAbilityImage(ELFAbilityType Ability, bool bIsE
 	}
 
 	return ReturnedTexture;
+}
+
+
+TArray<UPaperSprite*> ULFDefaultContent::GetOnAltarSprites(ELFAbilityType Ability)
+{
+	TArray<UPaperSprite*> SpritesArray;
+
+	FLFAltarSprites Sprites = AltarSprites[Ability];
+	SpritesArray.Add(Sprites.OnSprite);
+	SpritesArray.Add(Sprites.EyesSprite);
+	SpritesArray.Add(Sprites.GlowSprite);
+	SpritesArray.Add(Sprites.GemSprite);
+
+	return SpritesArray;
+}
+
+TArray<UPaperSprite*> ULFDefaultContent::GetOffAltarSprites(ELFAbilityType Ability)
+{
+	TArray<UPaperSprite*> SpritesArray;
+
+	FLFAltarSprites Sprites = AltarSprites[Ability];
+	SpritesArray.Add(Sprites.OffSprite);
+	SpritesArray.Add(nullptr);
+	SpritesArray.Add(nullptr);
+	SpritesArray.Add(nullptr);
+
+	return SpritesArray;
 }

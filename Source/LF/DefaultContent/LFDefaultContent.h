@@ -19,6 +19,27 @@ struct FLFAbilityImages
 	class UTexture2D* DisabledTexture;
 };
 
+USTRUCT(BlueprintType)
+struct FLFAltarSprites
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UPaperSprite* OffSprite;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UPaperSprite* OnSprite;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UPaperSprite* EyesSprite;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UPaperSprite* GlowSprite;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	class UPaperSprite* GemSprite;
+};
+
 UCLASS(Blueprintable)
 class LF_API ULFDefaultContent : public UObject
 {
@@ -33,11 +54,22 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	class UTexture2D* GetAbilityImage(ELFAbilityType Ability, bool bIsEnabled)const;
+
+	UFUNCTION(BlueprintCallable)
+	TArray<UPaperSprite*>GetOnAltarSprites(ELFAbilityType Ability);
+	
+	UFUNCTION(BlueprintCallable)
+	TArray<UPaperSprite*> GetOffAltarSprites(ELFAbilityType Ability);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ELFAbilityType, FLinearColor> AbilityColors;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ELFAbilityType, FLFAbilityImages> AbilityImages;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<ELFAbilityType, FLFAltarSprites> AltarSprites;
+
 
 };
