@@ -46,8 +46,6 @@ void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	if (CurrentAbility != ELFAbilityType::None)
 	{
 		AbilityMap[CurrentAbility]->UpdateAbility(DeltaTime);
-
-	
 	}
 }
 
