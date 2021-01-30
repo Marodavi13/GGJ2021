@@ -43,10 +43,15 @@ void ULFAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("ELFAbilityType"), true);
 	GEngine->AddOnScreenDebugMessage(-1, DeltaTime, FColor::Green, FString::Printf(TEXT("Current ability: %s"), *EnumPtr->GetNameStringByIndex((int32)(CurrentAbility))));
 	
-	if (CurrentAbility != ELFAbilityType::None)
+
+	for (const TPair<ELFAbilityType, ULFAbility*>& pair : AbilityMap)
 	{
-		AbilityMap[CurrentAbility]->UpdateAbility(DeltaTime);
+		if (AllowedAbilitiesMap.Contains(pair.Key) && AllowedAbilitiesMap[pair.Key])
+		{
+			pair.Value->UpdateAbility(DeltaTime);
+		}
 	}
+
 }
 
 void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
