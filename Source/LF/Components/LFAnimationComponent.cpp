@@ -12,6 +12,8 @@ ULFAnimationComponent::ULFAnimationComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+	bIsDashing = false;
 }
 
 
@@ -40,7 +42,12 @@ void ULFAnimationComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void ULFAnimationComponent::UpdateFlipbook(const float PlayerSpeedSqr)
 {
 	// Are we moving or standing still?
-	UPaperFlipbook* DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
+	UPaperFlipbook* DesiredAnimation;
+	
+	if (bIsDashing)
+		DesiredAnimation = DashAnimation;
+	else
+		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
 
 	if (OwnerCharacter->GetSprite()->GetFlipbook() != DesiredAnimation)
 	{

@@ -25,6 +25,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	bool bIsDashing;
+
+protected:
 
 	// The animation to play while running around
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
@@ -33,6 +39,10 @@ protected:
 	// The animation to play while idle (standing still)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* IdleAnimation;
+
+	// The animation to play while idle (standing still)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* DashAnimation;
 
 	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
 	class APaperCharacter* OwnerCharacter;
