@@ -33,5 +33,8 @@ void ULFAbility::UpdateAbility_Implementation(float DeltaTime)
 
 void ULFAbility::DeactivateAbility_Implementation()
 {
-
+	if (OwnerAbilityComponent)
+	{
+		OwnerAbilityComponent->BroadcastAbilityDeactivated(GetClass());
+	}
 }

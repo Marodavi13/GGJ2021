@@ -99,7 +99,18 @@ void ULFAbilityComponent::DeactivateAbilityByType(ELFAbilityType Type)
 	{
 		CurrentAbility = ELFAbilityType::None;
 		AbilityMap[Type]->DeactivateAbility();
-		OnAbilityEnded.Broadcast(Type);
+	}
+}
+
+void ULFAbilityComponent::BroadcastAbilityDeactivated(TSubclassOf<ULFAbility> AbilityClass)
+{
+	for (const TPair<ELFAbilityType, TSubclassOf<ULFAbility>>& Ability : AbilityMapSubClasses)
+	{
+		if (Ability.Value == AbilityClass)
+		{
+			OnAbilityEnded.Broadcast(Ability.Key);
+			break;
+		}
 	}
 }
 

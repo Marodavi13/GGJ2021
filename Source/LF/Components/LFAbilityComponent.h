@@ -7,6 +7,8 @@
 #include "LF/LF.h"
 #include "LFAbilityComponent.generated.h"
 
+class ULFAbility;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityEnabled, ELFAbilityType, Ability, bool, bHasBeenEnabled);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityStarted, ELFAbilityType, Ability);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityEnded, ELFAbilityType, Ability);
@@ -40,6 +42,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DeactivateAbilityByType(ELFAbilityType Type);
 
+	void BroadcastAbilityDeactivated(TSubclassOf<ULFAbility> AbilityClass = nullptr);
+
 	UFUNCTION(BlueprintPure)
 	ELFAbilityType GetCurrentAbilityType() const { return CurrentAbility; }
 
@@ -57,7 +61,7 @@ public:
 	FOnAbilityEnded OnAbilityEnded;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<ELFAbilityType, TSubclassOf<class ULFAbility>> AbilityMapSubClasses;
+	TMap<ELFAbilityType, TSubclassOf<ULFAbility>> AbilityMapSubClasses;
 
 protected:
 
@@ -65,7 +69,7 @@ protected:
 	TMap<ELFAbilityType, bool> AllowedAbilitiesMap;
 
 	UPROPERTY(Transient, SkipSerialization)
-	TMap<ELFAbilityType, class ULFAbility*> AbilityMap;
+	TMap<ELFAbilityType, ULFAbility*> AbilityMap;
 
 	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
 	ELFAbilityType CurrentAbility;
