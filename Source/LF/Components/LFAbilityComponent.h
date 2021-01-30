@@ -64,4 +64,6 @@ protected:
 	UPROPERTY(Transient, SkipSerialization)
 	TMap<ELFAbilityType, class ULFAbility*> AbilityMap;
 
+	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
+	ELFAbilityType CurrentAbility;
 };
