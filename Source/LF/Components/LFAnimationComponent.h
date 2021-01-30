@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "LF/LF.h"
 #include "LFAnimationComponent.generated.h"
 
 
@@ -18,17 +19,22 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void UpdateFlipbook(const float PlayerSpeedSqr);
-	void UpdateDirection(const FVector& PlayerVelocity);
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:
+	void SetCurrentAnimation(ELFAbilityType AbilityType);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	bool bIsDashing;
+	void UpdateAnimationBySpeed();
+	void UpdateDirection(const FVector& PlayerVelocity);
+	void UpdateFlipbook();
+	
+
+	UFUNCTION()
+	void OnAbilityStarted(ELFAbilityType AbilityType);
+		
+	UFUNCTION()
+	void OnAbilityEnded(ELFAbilityType AbilityType);
 
 protected:
 
@@ -40,9 +46,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* IdleAnimation;
 
-	// The animation to play while idle (standing still)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* DashAnimation;
+	TMap<ELFAbilityType, UPaperFlipbook*> AbilitiesAnimations;
+
+	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
+	class UPaperFlipbook* CurrentAnimation;
+		
+	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
+	ELFAbilityType CurrentAbility;
 
 	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
 	class APaperCharacter* OwnerCharacter;

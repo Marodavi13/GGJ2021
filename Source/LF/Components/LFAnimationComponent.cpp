@@ -5,6 +5,7 @@
 #include "PaperCharacter.h"
 #include "PaperFlipbookComponent.h"
 #include "PaperFlipbook.h"
+#include "LFAbilityComponent.h"
 
 // Sets default values for this component's properties
 ULFAnimationComponent::ULFAnimationComponent()
@@ -12,8 +13,6 @@ ULFAnimationComponent::ULFAnimationComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	bIsDashing = false;
 }
 
 
@@ -22,8 +21,52 @@ void ULFAnimationComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	OwnerCharacter = Cast<APaperCharacter>(GetOwner());
+
+	CurrentAbility = ELFAbilityType::None;
+	SetCurrentAnimation(CurrentAbility);
+	
+	ULFAbilityComponent* Ability = OwnerCharacter->FindComponentByClass<ULFAbilityComponent>();
+	if (Ability)
+	{
+		Ability->OnAbilityStarted.AddDynamic(this, &ULFAnimationComponent::OnAbilityStarted);
+		Ability->OnAbilityEnded.AddDynamic(this, &ULFAnimationComponent::OnAbilityEnded);
+	}
 }
 
+void ULFAnimationComponent::SetCurrentAnimation(ELFAbilityType AbilityType)
+{
+	if (AbilitiesAnimations.Contains(AbilityType))
+	{
+		CurrentAbility = AbilityType;
+		CurrentAnimation = AbilitiesAnimations[AbilityType];
+	}
+	else
+	{
+		UpdateAnimationBySpeed();
+	}
+
+	UpdateFlipbook();
+
+}
+
+void ULFAnimationComponent::UpdateAnimationBySpeed()
+{
+	const FVector PlayerVelocity = OwnerCharacter->GetVelocity();
+	const float PlayerSpeed = PlayerVelocity.Size2D();
+
+	CurrentAnimation = PlayerSpeed > 0.f ? RunningAnimation : IdleAnimation;
+
+}
+void ULFAnimationComponent::OnAbilityStarted(ELFAbilityType AbilityType)
+{
+	SetCurrentAnimation(AbilityType);
+}
+
+void ULFAnimationComponent::OnAbilityEnded(ELFAbilityType AbilityType)
+{
+	CurrentAbility = ELFAbilityType::None;
+	SetCurrentAnimation(CurrentAbility);
+}
 
 // Called every frame
 void ULFAnimationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -32,26 +75,21 @@ void ULFAnimationComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	if (OwnerCharacter)
 	{
 		const FVector PlayerVelocity = OwnerCharacter->GetVelocity();
-		const float PlayerSpeedSqr = PlayerVelocity.SizeSquared();
-
-		UpdateFlipbook(PlayerSpeedSqr);
 		UpdateDirection(PlayerVelocity);
+		
+		if (CurrentAbility == ELFAbilityType::None)
+		{
+			UpdateAnimationBySpeed();
+			UpdateFlipbook();
+		}
 	}
 }
 
-void ULFAnimationComponent::UpdateFlipbook(const float PlayerSpeedSqr)
+void ULFAnimationComponent::UpdateFlipbook()
 {
-	// Are we moving or standing still?
-	UPaperFlipbook* DesiredAnimation;
-	
-	if (bIsDashing)
-		DesiredAnimation = DashAnimation;
-	else
-		DesiredAnimation = (PlayerSpeedSqr > 0.0f) ? RunningAnimation : IdleAnimation;
-
-	if (OwnerCharacter->GetSprite()->GetFlipbook() != DesiredAnimation)
+	if (OwnerCharacter->GetSprite()->GetFlipbook() != CurrentAnimation)
 	{
-		check(OwnerCharacter->GetSprite()->SetFlipbook(DesiredAnimation));
+		OwnerCharacter->GetSprite()->SetFlipbook(CurrentAnimation);
 	}
 }
 
