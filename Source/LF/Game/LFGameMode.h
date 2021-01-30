@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Engine/World.h"
 #include "LFGameMode.generated.h"
 
 /**

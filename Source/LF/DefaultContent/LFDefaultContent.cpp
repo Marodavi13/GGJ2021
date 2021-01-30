@@ -3,6 +3,7 @@
 
 #include "./LFDefaultContent.h"
 #include "PaperSprite.h"
+#include "Engine/World.h"
 
 ULFDefaultContent* ULFDefaultContent::Get()
 {
@@ -67,3 +68,28 @@ TArray<UPaperSprite*> ULFDefaultContent::GetOffAltarSprites(ELFAbilityType Abili
 
 	return SpritesArray;
 }
+
+void ULFDefaultContent::UpdateNextLevel(AActor* ThisWorld)
+{
+	if (ThisWorld->GetWorld() == MainLevel.Get())
+	{
+		NextLevel = Levels[0];
+	}
+	else if (ThisWorld->GetWorld() == Levels[Levels.Num() - 1].Get())
+	{
+		NextLevel = EndLevel;
+	}
+	else
+	{
+		for (int32 i = 0; i < Levels.Num(); ++i)
+		{
+			if (ThisWorld->GetWorld() == Levels[i].Get())
+			{
+
+				NextLevel = Levels[i + 1].Get();
+				break;
+			}
+		}
+	}
+}
+

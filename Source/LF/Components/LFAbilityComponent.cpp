@@ -60,6 +60,10 @@ void ULFAbilityComponent::AllowAbility(ELFAbilityType Type, bool bAllow)
 	{
 		AllowedAbilitiesMap[Type] = bAllow;
 
+		if (CurrentAbility == Type)
+		{
+			DeactivateAbilityByType(CurrentAbility);
+		}
 		OnAbilityEnabled.Broadcast(Type, bAllow);
 	}
 }
