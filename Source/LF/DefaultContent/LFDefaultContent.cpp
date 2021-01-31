@@ -123,3 +123,11 @@ TSoftObjectPtr<UWorld> ULFDefaultContent::GetCurrentLevel(AActor* ThisWorld)
 	return ReturnedWorld;
 }
 
+TSoftObjectPtr<UWorld> ULFDefaultContent::GetLevel(int32 ID)
+{
+	TSoftObjectPtr<UWorld> ReturnedWorld = Levels[ID];
+
+	return ReturnedWorld;
+
+}
+

@@ -65,6 +65,10 @@ public:
 	TSoftObjectPtr<UWorld> GetNextLevel(AActor* ThisWorld);
 	UFUNCTION(BlueprintCallable)
 	TSoftObjectPtr<UWorld> GetCurrentLevel(AActor* ThisWorld);
+
+	UFUNCTION(BlueprintCallable)
+	TSoftObjectPtr<UWorld> GetLevel(int32 ID);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ELFAbilityType, FLinearColor> AbilityColors;
