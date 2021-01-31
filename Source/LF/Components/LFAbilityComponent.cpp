@@ -95,6 +95,10 @@ void ULFAbilityComponent::ActivateAbilityByType(ELFAbilityType Type)
 		AbilityMap[Type]->ActivateAbility();
 		OnAbilityStarted.Broadcast(Type);
 	}
+	else
+	{
+		OnAbilityForbidden.Broadcast(Type);
+	}
 }
 
 void ULFAbilityComponent::DeactivateAbilityByType(ELFAbilityType Type)

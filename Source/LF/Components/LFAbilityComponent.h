@@ -12,6 +12,7 @@ class ULFAbility;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityEnabled, ELFAbilityType, Ability, bool, bHasBeenEnabled);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityStarted, ELFAbilityType, Ability);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityEnded, ELFAbilityType, Ability);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityForbidden, ELFAbilityType, Ability);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LF_API ULFAbilityComponent : public UActorComponent
@@ -59,6 +60,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilityEnded OnAbilityEnded;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAbilityForbidden OnAbilityForbidden;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<ELFAbilityType, TSubclassOf<ULFAbility>> AbilityMapSubClasses;
