@@ -19,11 +19,12 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+		void SetCurrentAnimation(ELFAbilityType AbilityType);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-	void SetCurrentAnimation(ELFAbilityType AbilityType);
 
 	UFUNCTION()
 	void ClearCurrentAnimation();
