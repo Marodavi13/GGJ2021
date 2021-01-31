@@ -56,6 +56,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	TMap<ELFAbilityType, UPaperFlipbook*> AbilitiesFinishingAnimations;
 
+	UPROPERTY(Transient, SkipSerialization, BlueprintReadWrite)
+	float LastRightInput;
+
 	UPROPERTY(Transient, SkipSerialization, BlueprintReadOnly)
 	class UPaperFlipbook* CurrentAnimation;
 		

@@ -114,19 +114,17 @@ void ULFAnimationComponent::UpdateFlipbook()
 
 void ULFAnimationComponent::UpdateDirection(const FVector& PlayerVelocity)
 {
-	// Now setup the rotation of the controller based on the direction we are travelling
-	float TravelDirection = PlayerVelocity.X;
-	// Set the rotation so that the character faces his direction of travel.
 	AController* Controller = OwnerCharacter->GetController();
-	if (Controller != nullptr)
+	if (Controller)
 	{
-		if (TravelDirection < 0.0f)
-		{
-			Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
-		}
-		else if (TravelDirection > 0.0f)
+		if (LastRightInput > 0.f)
 		{
 			Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
 		}
+		else if (LastRightInput < 0.f)
+		{
+			Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
+		}
 	}
+
 }
