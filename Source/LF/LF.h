@@ -14,6 +14,7 @@ enum class ELFAbilityType: uint8
 	Stomp,
 	Climb,
 	Falling,
+	GivingGem,
 	Count
 };
 
